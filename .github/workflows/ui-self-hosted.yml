@@ -46,6 +46,7 @@ concurrency:
 
 jobs:
   ui-build:
+    if: github.repository_owner == 'ggml-org'
     name: Build static output
     uses: ./.github/workflows/ui-build-self-hosted.yml
     permissions:
@@ -53,6 +54,7 @@ jobs:
       contents: read
 
   ui-checks:
+    if: github.repository_owner == 'ggml-org'
     name: Checks
     needs: ui-build
     runs-on: [self-hosted, PLAYWRIGHT]
@@ -96,6 +98,7 @@ jobs:
         working-directory: tools/ui
 
   e2e-tests:
+    if: github.repository_owner == 'ggml-org'
     name: E2E Tests
     needs: ui-build
     runs-on: [self-hosted, PLAYWRIGHT]

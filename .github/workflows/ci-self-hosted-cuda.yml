@@ -49,6 +49,7 @@ env:
 
 jobs:
   gpu-cuda:
+    if: github.repository_owner == 'ggml-org'
     runs-on: "hf-jobs-t4-medium:cuda13"
 
     steps:
@@ -93,6 +94,7 @@ jobs:
           save: true
 
   gpu-rocm:
+    if: github.repository_owner == 'ggml-org'
     runs-on: [self-hosted, Linux, AMD]
 
     steps:

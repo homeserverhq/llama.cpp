@@ -10,6 +10,7 @@ permissions:
 
 jobs:
   build:
+    if: github.repository_owner == 'ggml-org'
     runs-on: [self-hosted, fast]
     env:
       BRANCH_NAME: ${{ github.head_ref || github.ref_name }}

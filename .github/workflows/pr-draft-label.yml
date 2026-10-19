@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   convert-to-draft:
-    if: github.event.label.name == 'draft' && github.event.pull_request.draft == false
+    if: github.event.label.name == 'draft' && github.event.pull_request.draft == false && github.repository_owner == 'ggml-org'
     runs-on: ubuntu-slim
     steps:
       - name: Convert PR to draft

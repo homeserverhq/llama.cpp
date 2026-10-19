@@ -44,6 +44,7 @@ concurrency:
 
 jobs:
   check-release:
+    if: github.repository_owner == 'ggml-org'
     runs-on: ubuntu-slim
 
     permissions:

@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   find-related:
-    if: github.event.action == 'opened'
+    if: github.event.action == 'opened' && github.repository_owner == 'ggml-org'
     runs-on: [self-hosted, opencode]
 
     permissions:

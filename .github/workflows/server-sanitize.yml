@@ -49,6 +49,7 @@ concurrency:
 
 jobs:
   server:
+    if: github.repository_owner == 'ggml-org'
     runs-on: hf-jobs-cpu-performance
 
     strategy:

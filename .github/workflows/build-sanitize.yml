@@ -49,9 +49,9 @@ jobs:
         - sanitizer: THREAD
           machine: ubuntu-24.04
         - sanitizer: UNDEFINED
-          machine: [self-hosted, X64, Linux]
+          machine: ubuntu-24.04
 
-    runs-on: ${{ matrix.machine }}
+    runs-on: ${{ (matrix.sanitizer == 'UNDEFINED' && github.repository_owner == 'ggml-org') && fromJSON('["self-hosted","X64","Linux"]') || matrix.machine }}
 
     steps:
       - name: Clone

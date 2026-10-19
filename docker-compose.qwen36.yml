@@ -1,0 +1,53 @@
+services:
+  llamacpp-qwen36-server:
+    image: hshq/llama-fork-qwen36:v1
+    container_name: llamacpp-qwen36-server
+    restart: unless-stopped
+    devices:
+      - /dev/dri:/dev/dri
+      - /dev/kfd:/dev/kfd
+    group_add:
+      - "44"
+    ports:
+      - "8067:8080"
+    volumes:
+      - /home/bolt/hshq/nonbackup/aimodels/llamacpp:/models:ro
+      - /home/bolt/hshq/nonbackup/llamacpp/fork_cache:/caches
+      - /repos/llama.cpp/qwen36-nohist-think.jinja:/templates/qwen36-nohist-think.jinja:ro
+    environment:
+      - LLAMA_ARG_HOST=0.0.0.0
+    networks:
+      - aipriv
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 300s
+    command: >
+      --model /models/Qwen3.6-35B-A3B-UDT-Q5_K_XL_MTP.gguf
+      --mmproj /models/mmproj-F16.gguf
+      --jinja
+      --no-reasoning-preserve
+      --chat-template-file /templates/qwen36-nohist-think.jinja
+      --ctx-size 262144
+      --n-gpu-layers 999
+      --flash-attn on
+      --parallel 2
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --slot-save-path /caches
+      --slot-save-auto
+      --slot-save-incremental
+      --slot-save-node-prompt on
+      --slot-save-max-mb 100000
+      --slot-save-idle-seconds 60
+      --metrics
+      --spec-type draft-mtp
+      --spec-draft-ngl 999
+      --spec-draft-n-max 3
+
+networks:
+  aipriv:
+    external: true
+    name: dock-aipriv
